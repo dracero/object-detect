@@ -5,11 +5,19 @@
    
     function registerServiceWorker() {
         if ('serviceWorker' in navigator) {
+            addEventListener('load', function () {
+                navigator.serviceWorker.register('../service-worker.js');
+    });
+}
+    }
+
+    /*function registerServiceWorker() {
+        if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register('../service-worker.js', {
                 type: dev ? 'module' : 'classic'
             });
         }
-    }
+    }*/
     async function persistData() {
        if (navigator.storage && navigator.storage.persist) {
         const result = await navigator.storage.persist();

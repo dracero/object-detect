@@ -32,6 +32,7 @@
 		"idb": "^7.1.1",
 		"kolorist": "^1.8.0",
 		"react": "^18.2.0",
+		"typescript": "^5.0.4",
 		"workbox": "^0.0.0",
 		"workbox-build": "^6.5.4",
 		"workbox-cacheable-response": "^6.5.4",

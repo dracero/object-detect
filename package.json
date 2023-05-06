@@ -30,6 +30,7 @@
 	"dependencies": {
 		"@vite-pwa/sveltekit": "^0.2.1",
 		"idb": "^7.1.1",
+		"kolorist": "^1.8.0",
 		"react": "^18.2.0",
 		"workbox": "^0.0.0",
 		"workbox-build": "^6.5.4",

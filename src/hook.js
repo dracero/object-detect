@@ -4,7 +4,7 @@ import { onMount } from 'svelte';
 
 import './service-worker.js';
 
-const workbox = new Workbox('/service-worker.js');
+const workbox = new Workbox('./service-worker.js');
 
 registerSW({
   onNeedRefresh() {

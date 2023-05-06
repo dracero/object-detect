@@ -19,3 +19,4 @@ registerSW({
 onMount(() => {
   workbox.register();
 });
+

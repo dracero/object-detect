@@ -70,7 +70,9 @@
     onMount(() => {
         getStream();
         // Listen for when the device goes back online
-        window.addEventListener('online', sendLocalPhoto);
+        window.addEventListener('online', function() {
+            setTimeout(sendLocalPhoto, 5000); // waits 5 seconds before calling sendLocalPhoto function
+        });
     });
 
 </script>

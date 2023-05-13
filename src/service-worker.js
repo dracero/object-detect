@@ -1,3 +1,4 @@
+/*Tener en cuenta que solo funciona sin está el pwa svelte kit instalado, el typescript isntalado y con tsconfig.json en el root directory*/ 
 /// <reference types="@sveltejs/kit" />
 import { build, files, version } from '$service-worker';
 

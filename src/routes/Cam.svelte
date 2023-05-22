@@ -25,54 +25,14 @@
         console.log(stream.getTracks()[0])
     }
 
-    // Add this function to send the locally saved photo to the server
-    async function sendLocalPhoto() {
-        const localPhoto = localStorage.getItem('photo');
-        if (localPhoto) {
-            const response = await fetch('/api/inPhoto', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ imageData: localPhoto })
-            });
-            if (response.ok) {
-                console.log("Local photo sent to server");
-                localStorage.removeItem('photo');
-            } else {
-                console.error("Error sending local photo:", response.statusText);
-            }
-        }
-    }
-
     async function takePhoto() {
         // @ts-ignore
         canvasRef.getContext('2d').drawImage(videoRef, 0, 0, canvasRef.width, canvasRef.height);
         const dataUrl = canvasRef.toDataURL('image/png');
-
-        if (navigator.onLine) {
-            // Send the image data to the server
-            const response = await fetch('/api/inPhoto', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ imageData: dataUrl })
-            });
-            if (response.ok) {
-                console.log("Data inserted successfully");
-            } else {
-                console.error("Error inserting data:", response.statusText); 
-            }
-        } else {
-            // Save the photo locally
-            localStorage.setItem('photo', dataUrl);
-            console.log("Photo saved locally");
-        }
     }
 
     onMount(() => {
         getStream();
-        // Listen for when the device goes back online
-        window.addEventListener('online', function() {
-            setTimeout(sendLocalPhoto, 5000); // waits 5 seconds before calling sendLocalPhoto function
-        });
     });
 
 </script>

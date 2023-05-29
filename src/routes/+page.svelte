@@ -1,10 +1,10 @@
 <script>
-	import Detec from './Detec.svelte';
-
-    
-    //import Cam from './Cam.svelte';
+	//import Cam from './Cam.svelte';
     import Detect from './Detec.svelte';
+    import Snap from './Snap.svelte';
 
 </script>
 <Detect />
+<Snap />
+
 

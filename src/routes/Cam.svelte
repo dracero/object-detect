@@ -1,10 +1,8 @@
 <script>
+    // @ts-nocheck
     import { onMount } from "svelte";
-    // @ts-ignore
     let stream;
-    // @ts-ignore
     let videoRef;
-    // @ts-ignore
     /**
 	 * @type {HTMLCanvasElement}
 	 */
@@ -16,12 +14,10 @@
                 video: true,
                 audio: false
             });
-            // @ts-ignore
             videoRef.srcObject = stream;
         } catch (err) {
             console.error(err);
         }
-        // @ts-ignore
         console.log(stream.getTracks()[0])
     }
 
@@ -42,6 +38,5 @@
     <button class="rounded-sm bg-blue-600 text-white px-4 py-2" on:click|preventDefault={takePhoto}>Take Photo</button>
     <!-- svelte-ignore a11y-media-has-caption -->
     <video class="mt-4 rounded-sm " width="640" height="480" autoplay={true} bind:this={videoRef} />
-
     <canvas class="mt-4 rounded-sm" width="640" height="480" bind:this={canvasRef}></canvas>
 </section>

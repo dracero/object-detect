@@ -1,10 +1,23 @@
 <script>
-// @ts-ignore
+// @ts-nocheck
 import * as tf from "@tensorflow/tfjs";
 import { onMount } from 'svelte';
-// @ts-ignore
+import { count } from "./stores.js"
+let countValue;
 let dataCollectorButtons;
+let videoRef;
+ /**
+	 * @type {HTMLCanvasElement}
+	 */
+let canvasRef;
+count.subscribe(value => {
+		countValue = value;
+	});
 
+async function takePhoto() {
+    canvasRef.getContext('2d').drawImage(videoRef, 0, 0, canvasRef.width, canvasRef.height);
+    const dataUrl = canvasRef.toDataURL('image/png');
+}  
 onMount (() => {
  
 const STATUS = document.getElementById('status');
@@ -14,28 +27,21 @@ const TRAIN_BUTTON = document.getElementById('train');
 const MOBILE_NET_INPUT_WIDTH = 224;
 const MOBILE_NET_INPUT_HEIGHT = 224;
 const STOP_DATA_GATHER = -1;
-// @ts-ignore
 const CLASS_NAMES = [];
-// @ts-ignore
 ENABLE_CAM_BUTTON.addEventListener('click', enableCam);
-// @ts-ignore
 TRAIN_BUTTON.addEventListener('click', trainAndPredict);
 
-// @ts-ignore
+
 let mobilenet = undefined;
 let gatherDataState = STOP_DATA_GATHER;
 let videoPlaying = false;
-// @ts-ignore
 let trainingDataInputs = [];
-// @ts-ignore
 let trainingDataOutputs = [];
-// @ts-ignore
 let examplesCount = [];
 let predict = false;
 
 const status = document.getElementById('status');
 if (status) {
-  // @ts-ignore
   status.innerText = 'Loaded TensorFlow.js - version: ' + tf.version.tfjs;
 }
 
@@ -54,12 +60,9 @@ function enableCam() {
 
     // Activate the webcam stream.
     navigator.mediaDevices.getUserMedia(constraints).then(function(stream) {
-      // @ts-ignore
       VIDEO.srcObject = stream;
-      // @ts-ignore
       VIDEO.addEventListener('loadeddata', function() {
         videoPlaying = true;
-        // @ts-ignore
         ENABLE_CAM_BUTTON.parentNode.removeChild(ENABLE_CAM_BUTTON);
       });
     });
@@ -70,22 +73,16 @@ function enableCam() {
 
 function predictLoop() {
   if (predict) {
-    // @ts-ignore
     tf.tidy(function() {
-      // @ts-ignore
       let videoFrameAsTensor = tf.browser.fromPixels(VIDEO).div(255);
-      // @ts-ignore
       let resizedTensorFrame = tf.image.resizeBilinear(videoFrameAsTensor,[MOBILE_NET_INPUT_HEIGHT, 
           MOBILE_NET_INPUT_WIDTH], true);
 
-      // @ts-ignore
       let imageFeatures = mobilenet.predict(resizedTensorFrame.expandDims());
-      // @ts-ignore
       let prediction = model.predict(imageFeatures).squeeze();
       let highestIndex = prediction.argMax().arraySync();
       let predictionArray = prediction.arraySync();
 
-      // @ts-ignore
       STATUS.innerText = 'Prediction: ' + CLASS_NAMES[highestIndex] + ' with ' + Math.floor(predictionArray[highestIndex] * 100) + '% confidence';
     });
 
@@ -95,20 +92,10 @@ function predictLoop() {
 
 async function trainAndPredict() {
   predict = false;
-  // @ts-ignore
   tf.util.shuffleCombo(trainingDataInputs, trainingDataOutputs);
-  // @ts-ignore
   let outputsAsTensor = tf.tensor1d(trainingDataOutputs, 'int32');
-  // @ts-ignore
   let oneHotOutputs = tf.oneHot(outputsAsTensor, CLASS_NAMES.length);
-  // @ts-ignore
   let inputsAsTensor = tf.stack(trainingDataInputs);
-  
-  // @ts-ignore
-  // @ts-ignore
-  // @ts-ignore
-  // @ts-ignore
-  // @ts-ignore
   let results = await model.fit(inputsAsTensor, oneHotOutputs, {shuffle: true, batchSize: 5, epochs: 10, 
       callbacks: {onEpochEnd: logProgress} });
   
@@ -118,16 +105,14 @@ async function trainAndPredict() {
   predict = true;
   predictLoop();
 }
-
-// @ts-ignore
 function logProgress(epoch, logs) {
   console.log('Data for epoch ' + epoch, logs);
 }
 
 dataCollectorButtons = document.querySelectorAll('button.dataCollector');
 for (let i = 0; i < dataCollectorButtons.length; i++) {
-  dataCollectorButtons[i].addEventListener('mousedown', gatherDataForClass);
-  dataCollectorButtons[i].addEventListener('mouseup', gatherDataForClass);
+  dataCollectorButtons[i].addEventListener('click', gatherDataForClass);
+  dataCollectorButtons[i].addEventListener('click', gatherDataForClass);
   // Populate the human readable names for classes.
   CLASS_NAMES.push(dataCollectorButtons[i].getAttribute('data-name'));
 }
@@ -137,23 +122,18 @@ for (let i = 0; i < dataCollectorButtons.length; i++) {
  * Handle Data Gather for button mouseup/mousedown.
  **/
 function gatherDataForClass() {
-  // @ts-ignore
   let classNumber = parseInt(this.getAttribute('data-1hot'));
   gatherDataState = (gatherDataState === STOP_DATA_GATHER) ? classNumber : STOP_DATA_GATHER;
   dataGatherLoop();
 }
 
 function dataGatherLoop() {
-  if (videoPlaying && gatherDataState !== STOP_DATA_GATHER) {
-    // @ts-ignore
-    let imageFeatures = tf.tidy(function() {
-      // @ts-ignore
+  if (videoPlaying && gatherDataState !== STOP_DATA_GATHER) {  
+      let imageFeatures = tf.tidy(function() {
       let videoFrameAsTensor = tf.browser.fromPixels(VIDEO);
-      // @ts-ignore
       let resizedTensorFrame = tf.image.resizeBilinear(videoFrameAsTensor, [MOBILE_NET_INPUT_HEIGHT, 
           MOBILE_NET_INPUT_WIDTH], true);
       let normalizedTensorFrame = resizedTensorFrame.div(255);
-      // @ts-ignore
       return mobilenet.predict(normalizedTensorFrame.expandDims()).squeeze();
     });
 
@@ -161,18 +141,22 @@ function dataGatherLoop() {
     trainingDataOutputs.push(gatherDataState);
     
     // Intialize array index element if currently undefined.
-    // @ts-ignore
     if (examplesCount[gatherDataState] === undefined) {
       examplesCount[gatherDataState] = 0;
     }
-    // @ts-ignore
     examplesCount[gatherDataState]++;
 
-    // @ts-ignore
     STATUS.innerText = '';
     for (let n = 0; n < CLASS_NAMES.length; n++) {
-      // @ts-ignore
       STATUS.innerText += CLASS_NAMES[n] + ' data count: ' + examplesCount[n] + '. ';
+      if (examplesCount[n] > 100){
+        dataCollectorButtons[n].click();
+        dataCollectorButtons[n].remove();
+        takePhoto(); //Esto hay que llevarlo al camponente Snap Svelte
+        count.set(examplesCount[n])
+        examplesCount[n] = 0;
+
+      }
     }
     window.requestAnimationFrame(dataGatherLoop);
   }
@@ -185,15 +169,11 @@ async function loadMobileNetFeatureModel() {
   const URL = 
     'https://tfhub.dev/google/tfjs-model/imagenet/mobilenet_v3_small_100_224/feature_vector/5/default/1';
   
-  // @ts-ignore
   mobilenet = await tf.loadGraphModel(URL, {fromTFHub: true});
-  // @ts-ignore
   STATUS.innerText = 'MobileNet v3 loaded successfully!';
   
   // Warm up the model by passing zeros through it once.
-  // @ts-ignore
   tf.tidy(function () {
-    // @ts-ignore
     let answer = mobilenet.predict(tf.zeros([1, MOBILE_NET_INPUT_HEIGHT, MOBILE_NET_INPUT_WIDTH, 3]));
     console.log(answer.shape);
   });
@@ -202,11 +182,8 @@ async function loadMobileNetFeatureModel() {
 // Call the function immediately to start loading.
 loadMobileNetFeatureModel();
 
-// @ts-ignore
 let model = tf.sequential();
-// @ts-ignore
 model.add(tf.layers.dense({inputShape: [1024], units: 128, activation: 'relu'}));
-// @ts-ignore
 model.add(tf.layers.dense({units: CLASS_NAMES.length, activation: 'softmax'}));
 
 model.summary();
@@ -226,8 +203,10 @@ model.compile({
 <h1>TensorFlow.js Example</h1>
   <p id="status"></p>
   <!-- svelte-ignore a11y-media-has-caption -->
-  <video id="webcam" width="640" height="480" autoplay></video>
+  <video id="webcam" width="640" height="480" autoplay={true} bind:this={videoRef}></video>
+  <canvas class="canvas" width="640" height="480" bind:this={canvasRef}></canvas>
   <button id="enableCam" >Enable Webcam</button>
   <button id="train">Train and Predict</button>
   <button class="dataCollector" data-1hot="0" data-name="Class 1">Gather Class 1 Data</button>
   <button class="dataCollector" data-1hot="1" data-name="Class 2">Gather Class 2 Data</button>
+  <button class="rounded-sm bg-blue-600 text-white px-4 py-2" on:click|preventDefault={takePhoto}>Take Photo</button>

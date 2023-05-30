@@ -2,8 +2,9 @@
 // @ts-nocheck
 import * as tf from "@tensorflow/tfjs";
 import { onMount } from 'svelte';
-import { count } from "./stores.js"
+import { count, image } from "./stores.js"
 let countValue;
+let imageValue;
 let dataCollectorButtons;
 let videoRef;
  /**
@@ -14,9 +15,14 @@ count.subscribe(value => {
 		countValue = value;
 	});
 
+image.subscribe(value => {
+    imageValue = value;
+  });
+
 async function takePhoto() {
-    canvasRef.getContext('2d').drawImage(videoRef, 0, 0, canvasRef.width, canvasRef.height);
+    canvasRef.getContext('2d').drawImage(videoRef, 0, 0, videoRef.width, videoRef.height);
     const dataUrl = canvasRef.toDataURL('image/png');
+    image.set(dataUrl);
 }  
 onMount (() => {
  
@@ -203,10 +209,10 @@ model.compile({
 <h1>TensorFlow.js Example</h1>
   <p id="status"></p>
   <!-- svelte-ignore a11y-media-has-caption -->
-  <video id="webcam" width="640" height="480" autoplay={true} bind:this={videoRef}></video>
-  <canvas class="canvas" width="640" height="480" bind:this={canvasRef}></canvas>
+  <video id="webcam" width="128" height="96" autoplay={true} bind:this={videoRef}></video>
+  <p></p>
+  <canvas class="canvas" width="128" height="96" bind:this={canvasRef}></canvas>
   <button id="enableCam" >Enable Webcam</button>
   <button id="train">Train and Predict</button>
   <button class="dataCollector" data-1hot="0" data-name="Class 1">Gather Class 1 Data</button>
   <button class="dataCollector" data-1hot="1" data-name="Class 2">Gather Class 2 Data</button>
-  <button class="rounded-sm bg-blue-600 text-white px-4 py-2" on:click|preventDefault={takePhoto}>Take Photo</button>

@@ -1,12 +1,19 @@
 <script>
+
 // @ts-nocheck
-import { count } from './stores.js';
+import { count, image } from './stores.js';
 let countValue;
-count.subscribe(value => {
+let imageValue;
+count.subscribe(async value => {
 	 countValue = value;
      if (countValue == 101){
-            alert("Hola");
             count.set(0);
     }
+//acá ya tengo la imagen lista para ser llevada a la base de datos    
+image.subscribe(async value => {
+    imageValue = value;
+});
+console.log(imageValue);
 });
 </script>
+

@@ -10,8 +10,4 @@
 <Snap />
 <Screen />
 <Speech />
-<<<<<<< Updated upstream
-
-=======
->>>>>>> Stashed changes
 

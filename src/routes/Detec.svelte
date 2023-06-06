@@ -3,6 +3,7 @@
 import * as tf from "@tensorflow/tfjs";
 import { onMount } from 'svelte';
 import { count, image } from "./stores.js"
+
 let countValue;
 let imageValue;
 let dataCollectorButtons;
@@ -23,8 +24,12 @@ async function takePhoto() {
     canvasRef.getContext('2d').drawImage(videoRef, 0, 0, videoRef.width, videoRef.height);
     const dataUrl = canvasRef.toDataURL('image/png');
     image.set(dataUrl);
-}  
+}
+
+
+
 onMount (() => {
+ 
  
 const STATUS = document.getElementById('status');
 const VIDEO = document.getElementById('webcam');
@@ -216,3 +221,4 @@ model.compile({
   <button id="train">Train and Predict</button>
   <button class="dataCollector" data-1hot="0" data-name="Class 1">Gather Class 1 Data</button>
   <button class="dataCollector" data-1hot="1" data-name="Class 2">Gather Class 2 Data</button>
+  

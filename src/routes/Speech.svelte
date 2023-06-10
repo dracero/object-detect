@@ -2,6 +2,7 @@
     // @ts-nocheck
     import { onMount } from 'svelte';
     import { texto } from './stores.js';
+    
   
     let recognition = null;
     let transcript = '';

@@ -4,10 +4,12 @@
     import Snap from './Snap.svelte';
     import Screen from './Screen.svelte';
     import Speech from './Speech.svelte';
-
+    import Detectab from './Detect.svelte';
 </script>
+
 <Detect />
 <Snap />
 <Screen />
 <Speech />
+<Detectab />
 

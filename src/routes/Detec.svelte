@@ -24,13 +24,20 @@ async function takePhoto() {
     canvasRef.getContext('2d').drawImage(videoRef, 0, 0, videoRef.width, videoRef.height);
     const dataUrl = canvasRef.toDataURL('image/png');
     image.set(dataUrl);
+    //En este lugar se manda a la base de datos
+    const response = await fetch('/api/inPhoto', {
+        method: 'POST',
+               headers: { 'Content-Type': 'application/json' },
+               body: JSON.stringify({ imageData: imageValue })
+       });
+       if (response.ok) {
+           console.log("Data inserted successfully");
+       } else {
+               console.error("Error inserting data:", response.statusText); 
+    }
 }
 
-
-
 onMount (() => {
- 
- 
 const STATUS = document.getElementById('status');
 const VIDEO = document.getElementById('webcam');
 const ENABLE_CAM_BUTTON = document.getElementById('enableCam');

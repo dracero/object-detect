@@ -12,5 +12,5 @@
 <Screen />
 <Speech />
 <Detectab />
-<iframe src="http://chimuelo.fi.uba.ar/" title="Google" width="100%" height="500"></iframe>
-
+<!--<iframe src="http://chimuelo.fi.uba.ar/" title="Google" width="100%" height="500"></iframe>
+-->

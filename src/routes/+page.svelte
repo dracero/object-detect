@@ -1,16 +1,7 @@
-<script>
-	//import Cam from './Cam.svelte';
-    import Detect from './Detec.svelte';
-    import Snap from './Snap.svelte';
-    import Screen from './Screen.svelte';
-    import Speech from './Speech.svelte';
-    import Detectab from './Detect.svelte';
-</script>
-
-<Detect />
-<Snap />
-<Screen />
-<Speech />
-<Detectab />
-<!--<iframe src="http://chimuelo.fi.uba.ar/" title="Google" width="100%" height="500"></iframe>
--->
+<h1>SvelteKit Auth Example</h1>
+<p>
+  This is an example site to demonstrate how to use <a
+    href="https://kit.svelte.dev/">SvelteKit</a
+  >
+  with <a href="https://sveltekit.authjs.dev">SvelteKit Auth</a> for authentication.
+</p>

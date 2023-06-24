@@ -20,7 +20,7 @@
 <Speech />
 <Detectab />
 <Mic />
-<iframe src="http://chimuelo.fi.uba.ar/" title="Google" width="100%" height="500"></iframe>
+<embed src="http://chimuelo.fi.uba.ar/" title="Google" width="100%" height="500" />
 <p>Session expiry: {$page.data.session?.expires}</p>
 {:else}
 <h1>Access Denied</h1>

@@ -1,4 +1,5 @@
 <script lang="ts">
+  // @ts-nocheck
 	//import Cam from './Cam.svelte';
     import { page } from "$app/stores"
     import Detect from '../Detec.svelte';
@@ -20,8 +21,7 @@
 <Speech />
 <Detectab />
 <Mic />
-<embed src="http://chimuelo.fi.uba.ar/" title="Google" width="100%" height="500" />
-<p>Session expiry: {$page.data.session?.expires}</p>
+<embed src="http://chimuelo.fi.uba.ar" title="preview" width="100%" height="100%"/>
 {:else}
 <h1>Access Denied</h1>
 <p>

@@ -1,5 +1,4 @@
 <script lang="ts">
-  // @ts-nocheck
 	//import Cam from './Cam.svelte';
     import { page } from "$app/stores"
     import Detect from '../Detec.svelte';
@@ -10,7 +9,7 @@
     import Mic from '../Mic.svelte';
 </script>
 {#if $page.data.session}
-<h1>Protected pagea</h1>
+<h1>Protected page</h1>
 <p>
   This is a protected content. You can access this content because you are
   signed in.
@@ -21,7 +20,8 @@
 <Speech />
 <Detectab />
 <Mic />
-<embed src="http://chimuelo.fi.uba.ar" title="preview" width="100%" height="100%"/>
+<!--<embed src="http://chimuelo.fi.uba.ar/login/index.php" style="position:left; width: 1280px; height: 500px; overflow:hidden; z-index:999999;"/>-->
+<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSdcVUjKVIfcsW1jC2LEKivhJR65bWGRTUkaLo1Nw1N26gWGXQ/viewform?embedded=true" width="640" height="468" frameborder="0" marginheight="0" marginwidth="0" title="Google Form">Cargando…</iframe>
 {:else}
 <h1>Access Denied</h1>
 <p>
@@ -30,3 +30,4 @@
   </a>
 </p>
 {/if}
+

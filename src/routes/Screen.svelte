@@ -4,8 +4,7 @@ let screenshotUrl = '';
 
 function takeScreenshot() {
   html2canvas(document.body, { useCORS: true }).then(async canvas => {
-    screenshotUrl = canvas.toDataURL();
-    
+    screenshotUrl = canvas.toDataURL();    
     // Here, you can send the screenshot to the database
     const response = await fetch('/api/inScreenshot', {
       method: 'POST',

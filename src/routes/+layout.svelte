@@ -44,7 +44,7 @@
       "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
       "Noto Color Emoji";
     padding: 0 1rem 1rem 1rem;
-    max-width: 680px;
+    max-width: 100%;
     margin: 0 auto;
     background: #fff;
     color: #333;
@@ -62,7 +62,7 @@
   :global(iframe) {
     background: #ccc;
     border: 1px solid #ccc;
-    height: 10rem;
+    height: 600px;
     width: 100%;
     border-radius: 0.5rem;
     filter: invert(1);
